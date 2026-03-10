@@ -14,6 +14,7 @@
 # Omarchy generated current theme payload (keep theme.name only)
 .config/omarchy/current/theme/**
 .config/omarchy/current/background
+.config/omarchy/themes/**/.git/**
 
 # Generic cache/lock/db artifacts
 **/Cache/**
