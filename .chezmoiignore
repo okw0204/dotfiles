@@ -1,0 +1,24 @@
+# Large/stateful app data
+.config/chromium/**
+.config/BraveSoftware/**
+.config/Signal/**
+.config/obsidian/**
+.config/opencode/**
+
+# Runtime/session state
+.config/dconf/**
+.config/pulse/**
+.config/nautilus/**
+.config/yay/**
+
+# Omarchy generated current theme payload (keep theme.name only)
+.config/omarchy/current/theme/**
+.config/omarchy/current/background
+
+# Generic cache/lock/db artifacts
+**/Cache/**
+**/GPUCache/**
+**/node_modules/**
+**/*lock*
+**/*.sqlite
+**/*.sqlite-*
