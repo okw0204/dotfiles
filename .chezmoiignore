@@ -10,6 +10,7 @@
 .config/pulse/**
 .config/nautilus/**
 .config/yay/**
+.config/fish/fish_variables
 
 # Omarchy generated current theme payload (keep theme.name only)
 .config/omarchy/current/theme/**
