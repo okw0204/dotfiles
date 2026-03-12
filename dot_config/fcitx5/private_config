@@ -11,9 +11,8 @@ EnumerateSkipFirst=False
 ModifierOnlyKeyTimeout=250
 
 [Hotkey/TriggerKeys]
-0=Control+space
-1=Zenkaku_Hankaku
-2=Hangul
+0=Zenkaku_Hankaku
+1=Hangul
 
 [Hotkey/ActivateKeys]
 0=Henkan
@@ -80,4 +79,3 @@ AllowInputMethodForPassword=False
 ShowPreeditForPassword=False
 # Interval of saving user data in minutes
 AutoSavePeriod=30
-
