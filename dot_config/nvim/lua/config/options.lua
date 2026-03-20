@@ -3,3 +3,4 @@
 -- Add any additional options here
 vim.opt.relativenumber = false
 vim.opt.timeoutlen = 450 -- jj でEscしやすいように少し長め
+vim.opt.guicursor = "a:ver25-blinkon0" -- 全モードで縦線カーソルに固定

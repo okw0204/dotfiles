@@ -33,6 +33,7 @@ Current prefix key:
 
 ## Useful commands
 
+- `prefix + q`: reload `~/.config/tmux/tmux.conf`
 - `tmux ls`: list sessions
 - `tmux attach -t <name>`: attach to a session
 - `tmux new -s <name>`: start a named session

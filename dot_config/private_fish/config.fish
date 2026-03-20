@@ -1,4 +1,9 @@
 if status is-interactive
+    # ローカルの対話シェル起動時は tmux に自動で入る（tmux内/SSH先では無効）
+    if not set -q TMUX; and not set -q SSH_TTY
+        tmux new-session -A -s main # main セッションへ接続（なければ作成）
+    end
+
     # fish は履歴/補完を標準で管理するため、bash の HIST* や inputrc は不要
 
     # 環境変数 (.bashrc envs 相当)

@@ -16,7 +16,7 @@ resize-overlay = never
 gtk-toolbar-style = flat
 
 # Cursor styling
-cursor-style = "block"
+cursor-style = bar
 cursor-style-blink = false
 
 # Cursor styling + SSH session terminfo

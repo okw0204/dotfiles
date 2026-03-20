@@ -3,9 +3,11 @@ set -euo pipefail
 
 theme_file="$HOME/.config/omarchy/current/theme.name"
 
-if command -v omarchy-theme-set >/dev/null 2>&1 && [ -f "$theme_file" ]; then
+if [[ -n ${OPENCODE:-} ]]; then
+  echo "Skipping omarchy-theme-set in opencode session"
+elif command -v omarchy-theme-set >/dev/null 2>&1 && [[ -f $theme_file ]]; then
   theme_name="$(tr -d '[:space:]' < "$theme_file")"
-  if [ -n "$theme_name" ]; then
+  if [[ -n $theme_name ]]; then
     omarchy-theme-set "$theme_name"
   fi
 fi
