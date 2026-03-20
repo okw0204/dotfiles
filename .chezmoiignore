@@ -4,6 +4,9 @@
 .config/Signal/**
 .config/obsidian/**
 .config/opencode/**
+!.config/opencode/
+!.config/opencode/skills/
+!.config/opencode/skills/**
 
 # Runtime/session state
 .config/dconf/**
