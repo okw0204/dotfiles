@@ -86,6 +86,14 @@ if status is-interactive
     alias gcam="git commit -a -m"
     alias gcad="git commit -a --amend"
 
+    # ghq + fzf でリポジトリを選んで移動
+    function gq --description "Select ghq repo with fzf"
+        set -l selected (ghq list -p | fzf --height=40% --reverse --prompt "ghq> " --query "$argv")
+        if test -n "$selected"
+            cd "$selected"
+        end
+    end
+
     # Brave の言語を日本語に設定
     function brave
         env LANG=ja_JP.UTF-8 LC_ALL=ja_JP.UTF-8 command brave $argv
