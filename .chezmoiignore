@@ -8,6 +8,8 @@
 !.config/opencode/AGENTS.md
 !.config/opencode/skills/
 !.config/opencode/skills/**
+.config/opencode/skills/**/.git
+.config/opencode/skills/**/.git/**
 
 # Runtime/session state
 .config/dconf/**
