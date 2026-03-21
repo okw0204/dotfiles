@@ -5,6 +5,7 @@
 .config/obsidian/**
 .config/opencode/**
 !.config/opencode/
+!.config/opencode/AGENTS.md
 !.config/opencode/skills/
 !.config/opencode/skills/**
 
