@@ -1,7 +1,7 @@
 if status is-interactive
     # ローカルの対話シェル起動時は tmux に自動で入る（tmux内/SSH先では無効）
     if not set -q TMUX; and not set -q SSH_TTY
-        tmux new-session -A -s main # main セッションへ接続（なければ作成）
+        tmux new-session # 新しいセッションを毎回作成して接続
     end
 
     # fish は履歴/補完を標準で管理するため、bash の HIST* や inputrc は不要
@@ -43,20 +43,6 @@ if status is-interactive
     end
 
     alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
-
-    if type -q zoxide
-        # cd を zoxide に寄せる
-        function zd
-            if test (count $argv) -eq 0
-                builtin cd ~; and return
-            else if test -d "$argv[1]"
-                builtin cd "$argv[1]"
-            else
-                z $argv; and pwd; or echo "Error: Directory not found"
-            end
-        end
-        alias cd="zd"
-    end
 
     function open
         # xdg-open をバックグラウンドで実行
