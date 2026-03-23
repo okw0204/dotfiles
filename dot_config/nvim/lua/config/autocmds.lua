@@ -32,3 +32,11 @@ vim.api.nvim_create_autocmd("ModeChanged", {
     end
   end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "rust",
+  callback = function(args)
+    -- Rust ではライフタイム入力 ('a など) を優先して単一クォートの自動ペアを無効化
+    vim.keymap.set("i", "'", "'", { buffer = args.buf, noremap = true, silent = true })
+  end,
+})

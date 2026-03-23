@@ -175,3 +175,6 @@ if status is-interactive
             "$base-optimized.png"
     end
 end
+
+# opencode
+fish_add_path /home/okw/.opencode/bin
