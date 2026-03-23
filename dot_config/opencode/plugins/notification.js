@@ -1,9 +1,16 @@
 export const NotificationPlugin = async ({ $ }) => {
+  const configHome = process.env.XDG_CONFIG_HOME || `${process.env.HOME}/.config`
+  const notifyOffFile = `${configHome}/opencode/notify.off`
   const isGhostty =
     process.env.TERM_PROGRAM === "ghostty" ||
     Boolean(process.env.GHOSTTY_RESOURCES_DIR) ||
     Boolean(process.env.GHOSTTY_BIN_DIR)
   const isTmux = Boolean(process.env.TMUX) || (process.env.TERM || "").startsWith("tmux")
+
+  const isNotificationEnabled = async () => {
+    const result = await $`test ! -f ${notifyOffFile}; echo $?`.text()
+    return result.trim() === "0"
+  }
 
   const osc9 = (message) => {
     const clean = message.replace(/[\u0007\u001b\r\n]/g, " ")
@@ -19,6 +26,10 @@ export const NotificationPlugin = async ({ $ }) => {
   }
 
   const notify = async (message) => {
+    if (!(await isNotificationEnabled())) {
+      return
+    }
+
     if (isGhostty) {
       try {
         osc9(message)
