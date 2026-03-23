@@ -6,6 +6,9 @@
 .config/opencode/**
 !.config/opencode/
 !.config/opencode/AGENTS.md
+!.config/opencode/opencode.json
+!.config/opencode/plugins/
+!.config/opencode/plugins/**
 !.config/opencode/skills/
 !.config/opencode/skills/**
 .config/opencode/skills/**/.git
