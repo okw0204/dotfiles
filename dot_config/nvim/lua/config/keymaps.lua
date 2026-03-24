@@ -6,6 +6,7 @@ local map = vim.keymap.set
 
 -- 日本語入力中でも素早くNormalへ戻れるようにする
 map("i", "jj", "<Esc>", { desc = "Insert -> Normal" })
+map("i", "っｊ", "<Esc>", { desc = "Insert -> Normal (IME fallback)" })
 
 for _, key in ipairs({ "x", "X", "d", "D", "c", "C" }) do
   map({ "n", "x" }, key, '"_' .. key, {
