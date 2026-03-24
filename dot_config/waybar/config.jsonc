@@ -8,6 +8,7 @@
   "modules-center": ["clock", "custom/update", "custom/voxtype", "custom/screenrecording-indicator", "custom/idle-indicator", "custom/notification-silencing-indicator"],
   "modules-right": [
     "group/tray-expander",
+    "custom/ime",
     "bluetooth",
     "network",
     "pulseaudio",
@@ -52,6 +53,13 @@
     "tooltip-format": "Omarchy update available",
     "signal": 7,
     "interval": 21600
+  },
+  "custom/ime": {
+    "exec": "/home/okw/.config/waybar/scripts/ime-status.sh",
+    "return-type": "json",
+    "interval": 1,
+    "on-click": "fcitx5-remote -t",
+    "tooltip": true
   },
 
   "cpu": {

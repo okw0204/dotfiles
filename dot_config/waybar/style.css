@@ -34,10 +34,15 @@
 #battery,
 #pulseaudio,
 #custom-omarchy,
+#custom-ime,
 
 #custom-update {
   min-width: 12px;
   margin: 0 7.5px;
+}
+
+#custom-ime {
+  margin-right: 15px;
 }
 
 #tray {
