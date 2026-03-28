@@ -2,5 +2,6 @@
 fzf = "latest"
 ghq = "latest"
 node = "25.2.1"
+ollama = "0.18.3"
 rust = "stable"
 rust-analyzer = "latest"
