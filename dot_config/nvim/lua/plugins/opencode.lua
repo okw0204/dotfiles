@@ -64,7 +64,10 @@ return {
       end
 
       local function set_opencode_terminal_keymaps(buf)
-        vim.keymap.set("t", "<Esc>", [[<C-\\><C-n>]], {
+        vim.keymap.set("t", "<Esc>", function()
+          local keys = vim.api.nvim_replace_termcodes("<C-\\><C-n>", true, false, true)
+          vim.api.nvim_feedkeys(keys, "n", false)
+        end, {
           buffer = buf,
           desc = "Exit opencode terminal mode",
         })
