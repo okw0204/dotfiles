@@ -27,6 +27,7 @@ return {
     },
     config = function()
       local opencode_cmd = "opencode --port 4096"
+      local opencode_bufnr
 
       local function save_if_needed()
         if vim.bo.buftype == "" and vim.bo.modified then
@@ -35,13 +36,21 @@ return {
       end
 
       local function find_opencode_win()
-        for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
-          local buf = vim.api.nvim_win_get_buf(win)
-          if vim.bo[buf].buftype == "terminal" then
-            local name = vim.api.nvim_buf_get_name(buf)
-            if name:find("opencode", 1, true) then
+        if opencode_bufnr and vim.api.nvim_buf_is_valid(opencode_bufnr) then
+          local wins = vim.fn.win_findbuf(opencode_bufnr)
+          for _, win in ipairs(wins) do
+            if vim.api.nvim_win_is_valid(win) then
               return win
             end
+          end
+        end
+
+        for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+          local buf = vim.api.nvim_win_get_buf(win)
+          local name = vim.api.nvim_buf_get_name(buf)
+          if vim.bo[buf].buftype == "terminal" and name:find("opencode", 1, true) then
+            opencode_bufnr = buf
+            return win
           end
         end
         return nil
@@ -70,6 +79,14 @@ return {
         end
       end
 
+      local function focus_opencode_input_with_retry(delays)
+        for _, delay in ipairs(delays or { 0, 120, 300 }) do
+          vim.defer_fn(function()
+            ensure_opencode_panel_focus()
+          end, delay)
+        end
+      end
+
       local run_after_opencode_ready
 
       run_after_opencode_ready = function(callback, delay)
@@ -83,7 +100,7 @@ return {
 
         save_if_needed()
         run_after_opencode_ready(function()
-          ensure_opencode_panel_focus()
+          focus_opencode_input_with_retry()
           require("opencode").ask(prompt, { submit = true })
         end)
       end
@@ -103,9 +120,13 @@ return {
           }
 
           run_after_opencode_ready(function()
-            require("opencode").prompt(prompt, {
+            local request = require("opencode").prompt(prompt, {
               context = require("opencode.context").new(range),
             })
+
+            request:next(function()
+              focus_opencode_input_with_retry({ 0, 80, 180, 320, 500 })
+            end)
           end, 1200)
         end
 
@@ -136,6 +157,7 @@ return {
         group = vim.api.nvim_create_augroup("opencode_terminal", { clear = true }),
         pattern = "*opencode*",
         callback = function(args)
+          opencode_bufnr = args.buf
           vim.bo[args.buf].buflisted = false
         end,
       })
