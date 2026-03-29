@@ -63,6 +63,13 @@ return {
         end
       end
 
+      local function set_opencode_terminal_keymaps(buf)
+        vim.keymap.set("t", "<Esc>", [[<C-\\><C-n>]], {
+          buffer = buf,
+          desc = "Exit opencode terminal mode",
+        })
+      end
+
       local function ensure_opencode_panel_focus()
         local win = find_opencode_win()
         if not win then
@@ -159,6 +166,7 @@ return {
         callback = function(args)
           opencode_bufnr = args.buf
           vim.bo[args.buf].buflisted = false
+          set_opencode_terminal_keymaps(args.buf)
         end,
       })
 
