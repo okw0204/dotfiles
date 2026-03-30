@@ -34,6 +34,14 @@ vim.api.nvim_create_autocmd("ModeChanged", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
+  pattern = "*",
+  callback = function()
+    -- ftplugin が buffer-local に formatoptions を戻すので、各ファイルタイプ読込後に抑止する
+    vim.opt_local.formatoptions:remove({ "c", "r", "o" })
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
   pattern = "rust",
   callback = function(args)
     -- Rust ではライフタイム入力 ('a など) を優先して単一クォートの自動ペアを無効化
