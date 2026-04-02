@@ -9,6 +9,8 @@ if status is-interactive
     # 環境変数 (.bashrc envs 相当)
     set -gx SUDO_EDITOR $EDITOR
     set -gx BAT_THEME ansi
+    # Obsidian Vault パスの正本。Hermes 側でも ~/.hermes/.env に同じ値をミラーしている。
+    set -gx OBSIDIAN_VAULT_PATH "$HOME/ghq/github.com/okw0204/Obsidian"
 
     # 初期化 (.bashrc init 相当)
     if type -q mise
@@ -55,9 +57,9 @@ if status is-interactive
     alias ....="cd ../../.."
 
     # ツール
-    alias c="opencode"
+    abbr -a h hermes
+    abbr -a c opencode
     alias d="docker"
-    alias r="rails"
     function n
         if test (count $argv) -eq 0
             nvim .
@@ -67,7 +69,7 @@ if status is-interactive
     end
 
     # Git
-    alias g="git"
+    abbr -a g git
     alias gcm="git commit -m"
     alias gcam="git commit -a -m"
     alias gcad="git commit -a --amend"
