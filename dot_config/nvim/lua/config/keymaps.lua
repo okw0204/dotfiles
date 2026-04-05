@@ -13,3 +13,12 @@ for _, key in ipairs({ "x", "X", "d", "D", "c", "C" }) do
     desc = "Delete/Change without yanking",
   })
 end
+
+-- Rust のテスト候補実行を素早く呼べるようにする
+map("n", "<leader>r", "<nop>", { desc = "+rust" })
+map("n", "<leader>rt", function()
+  vim.cmd.RustLsp("testables")
+end, { desc = "Rust Testables" })
+map("n", "<leader>rT", function()
+  vim.cmd.RustLsp({ "testables", bang = true })
+end, { desc = "Rust Testables!" })
