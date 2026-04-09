@@ -57,16 +57,12 @@ if status is-interactive
     alias ....="cd ../../.."
 
     # ツール
+    abbr -a n nvim
     abbr -a h hermes
     abbr -a c opencode
-    alias d="docker"
-    function n
-        if test (count $argv) -eq 0
-            nvim .
-        else
-            nvim $argv
-        end
-    end
+    abbr -a d docker
+    abbr -a y yazi
+    abbr -a lg lazygit
 
     # Git
     abbr -a g git
