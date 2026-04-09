@@ -1,5 +1,8 @@
 # See https://git-scm.com/docs/git-config
 
+[core]
+	pager = delta
+
 [alias]
 	co = checkout
 	br = branch
@@ -15,6 +18,13 @@
 	algorithm = histogram    # Clearer diffs on moved/edited lines
 	colorMoved = plain       # Highlight moved blocks in diffs
 	mnemonicPrefix = true    # More intuitive refs in diff output
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true          # use n and N to move between diff sections
+	dark = true              # use delta colors for dark terminal backgrounds
+[merge]
+	conflictStyle = zdiff3
 [commit]
 	verbose = true           # Include diff comment in commit message template
 [column]
