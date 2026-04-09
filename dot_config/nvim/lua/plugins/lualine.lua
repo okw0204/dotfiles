@@ -19,17 +19,17 @@ local function detect_lang_version()
   end
 
   local checks = {
-    python = { cmd = "python3 --version", pattern = "Python%s+([%d%.]+)", label = "py" },
-    lua = { cmd = "lua -v 2>&1", pattern = "Lua%s+([%d%.]+)", label = "lua" },
-    javascript = { cmd = "node --version", pattern = "v([%d%.]+)", label = "node" },
-    typescript = { cmd = "node --version", pattern = "v([%d%.]+)", label = "node" },
-    javascriptreact = { cmd = "node --version", pattern = "v([%d%.]+)", label = "node" },
-    typescriptreact = { cmd = "node --version", pattern = "v([%d%.]+)", label = "node" },
-    go = { cmd = "go version", pattern = "go([%d%.]+)", label = "go" },
-    rust = { cmd = "rustc --version", pattern = "rustc%s+([%d%.]+)", label = "rs" },
-    ruby = { cmd = "ruby --version", pattern = "ruby%s+([%d%.]+)", label = "rb" },
-    php = { cmd = "php --version", pattern = "PHP%s+([%d%.]+)", label = "php" },
-    java = { cmd = "java -version 2>&1", pattern = '"([%d%._]+)"', label = "java" },
+    python = { cmd = "python3 --version", pattern = "Python%s+([%d%.]+)", label = "" },
+    lua = { cmd = "lua -v 2>&1", pattern = "Lua%s+([%d%.]+)", label = "" },
+    javascript = { cmd = "node --version", pattern = "v([%d%.]+)", label = "" },
+    typescript = { cmd = "node --version", pattern = "v([%d%.]+)", label = "󰛦" },
+    javascriptreact = { cmd = "node --version", pattern = "v([%d%.]+)", label = "" },
+    typescriptreact = { cmd = "node --version", pattern = "v([%d%.]+)", label = "󰜈" },
+    go = { cmd = "go version", pattern = "go([%d%.]+)", label = "" },
+    rust = { cmd = "rustc --version", pattern = "rustc%s+([%d%.]+)", label = "" },
+    ruby = { cmd = "ruby --version", pattern = "ruby%s+([%d%.]+)", label = "" },
+    php = { cmd = "php --version", pattern = "PHP%s+([%d%.]+)", label = "" },
+    java = { cmd = "java -version 2>&1", pattern = '"([%d%._]+)"', label = "" },
   }
 
   local check = checks[ft]

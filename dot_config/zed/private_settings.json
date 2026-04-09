@@ -1,0 +1,51 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "agent_servers": {
+    "opencode": {
+      "type": "registry"
+    }
+  },
+  "vim_mode": true,
+  "base_keymap": "VSCode",
+  "ui_font_size": 16,
+  "buffer_font_size": 15,
+  "theme": {
+    "mode": "system",
+    "light": "Kanagawa Lotus",
+    "dark": "Kanagawa Wave",
+  },
+  // 文字のコントラストは維持しつつ、面だけ少し透かして背景になじませる
+  "theme_overrides": {
+    "Kanagawa Wave": {
+      "background": "#1F1F28F0",
+      "surface.background": "#1F1F28F0",
+      "elevated_surface.background": "#181820EB",
+      "title_bar.background": "#181820EB",
+      "tab_bar.background": "#181820EB",
+      "toolbar.background": "#1F1F28EB",
+      "panel.background": "#1A1A22EB",
+      "editor.background": "#1F1F28E8",
+      "editor.gutter.background": "#1F1F28E8",
+      "editor.subheader.background": "#1A1A22EB"
+    },
+    "Kanagawa Lotus": {
+      "background": "#F2ECBCF2",
+      "surface.background": "#F2ECBCF2",
+      "elevated_surface.background": "#DCD5ACED",
+      "title_bar.background": "#DCD5ACED",
+      "tab_bar.background": "#DCD5ACED",
+      "toolbar.background": "#F2ECBCED",
+      "panel.background": "#E5DDB0ED",
+      "editor.background": "#F2ECBCE8",
+      "editor.gutter.background": "#F2ECBCE8",
+      "editor.subheader.background": "#E5DDB0ED"
+    }
+  },
+}
