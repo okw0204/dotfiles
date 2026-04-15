@@ -9,6 +9,8 @@
 
 - ツールの導入・更新は mise で一元管理する。
 - ナレッジは Obsidian で管理する（Vault のパスは環境変数 `OBSIDIAN_VAULT_PATH` で管理）。
+- 技術タスクの実行管理は GitHub Issue（`https://github.com/okw0204/life`）、知識・学習・構想の蓄積は Obsidian を正とする。
+- ユーザーは Hermes Agent も併用している。使い分けの基本は、覚えておいてほしい話・秘書的な整理・継続文脈が重要な話は Hermes、実装・編集・操作して進める話は OpenCode とする。設計相談は両方あり得るが、そのまま実装に繋げるものは OpenCode を優先する。
 
 # 実行方針
 
