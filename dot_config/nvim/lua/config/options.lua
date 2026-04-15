@@ -6,5 +6,7 @@ vim.opt.timeoutlen = 450 -- jj でEscしやすいように少し長め
 vim.opt.guicursor = "n-v-c:block,i:ver25,r-cr:hor20,o:hor50,ci-ve:block"
 vim.opt.virtualedit = "onemore"
 vim.opt.clipboard = "unnamedplus"
+-- jsonc は json parser に寄せて treesitter 更新エラーを避ける
+vim.treesitter.language.register("json", "jsonc")
 -- コメント行で改行しても次の行にコメントを自動挿入しない
 vim.opt.formatoptions:remove({ "c", "r", "o" })
