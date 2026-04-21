@@ -1,5 +1,6 @@
 [tools]
 fzf = "latest"
+gh = "latest"
 ghq = "latest"
 node = "25.2.1"
 ollama = "0.18.3"
