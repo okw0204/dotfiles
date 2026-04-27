@@ -24,6 +24,17 @@ is_terminal_class() {
   esac
 }
 
+uses_ctrl_shift_v() {
+  case "$1" in
+    Alacritty|kitty|com.mitchellh.ghostty|org.wezfurlong.wezterm|foot|org.gnome.Console|gnome-terminal-server)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
 sanitize_label() {
   jq -r '
     .item |
@@ -59,7 +70,11 @@ send_paste() {
   local window_class="$1"
 
   if is_terminal_class "$window_class"; then
-    hyprctl dispatch sendshortcut "SHIFT,Insert," >/dev/null 2>&1 || hyprctl dispatch sendshortcut "SHIFT,INSERT," >/dev/null 2>&1 || true
+    if uses_ctrl_shift_v "$window_class"; then
+      hyprctl dispatch sendshortcut "CTRL SHIFT,V," >/dev/null 2>&1 || true
+    else
+      hyprctl dispatch sendshortcut "SHIFT,Insert," >/dev/null 2>&1 || hyprctl dispatch sendshortcut "SHIFT,INSERT," >/dev/null 2>&1 || true
+    fi
   else
     hyprctl dispatch sendshortcut "CTRL,V," >/dev/null 2>&1 || true
   fi
