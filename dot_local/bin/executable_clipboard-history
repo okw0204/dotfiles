@@ -24,9 +24,20 @@ is_terminal_class() {
   esac
 }
 
+uses_ctrl_v() {
+  case "$1" in
+    com.mitchellh.ghostty)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
 uses_ctrl_shift_v() {
   case "$1" in
-    Alacritty|kitty|com.mitchellh.ghostty|org.wezfurlong.wezterm|foot|org.gnome.Console|gnome-terminal-server)
+    Alacritty|kitty|org.wezfurlong.wezterm|foot|org.gnome.Console|gnome-terminal-server)
       return 0
       ;;
     *)
@@ -70,7 +81,9 @@ send_paste() {
   local window_class="$1"
 
   if is_terminal_class "$window_class"; then
-    if uses_ctrl_shift_v "$window_class"; then
+    if uses_ctrl_v "$window_class"; then
+      hyprctl dispatch sendshortcut "CTRL,V," >/dev/null 2>&1 || true
+    elif uses_ctrl_shift_v "$window_class"; then
       hyprctl dispatch sendshortcut "CTRL SHIFT,V," >/dev/null 2>&1 || true
     else
       hyprctl dispatch sendshortcut "SHIFT,Insert," >/dev/null 2>&1 || hyprctl dispatch sendshortcut "SHIFT,INSERT," >/dev/null 2>&1 || true
@@ -107,8 +120,9 @@ main() {
   identifier="${identifiers[$selection_index]}"
   copy_item "$identifier"
 
-  sleep 0.05
+  sleep 0.12
   focus_original_window "$address"
+  sleep 0.08
   send_paste "$window_class"
 }
 
