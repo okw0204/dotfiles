@@ -12,6 +12,11 @@ launch_walker() {
   walker -m clipboard --width 900 --minheight 300 --maxheight 520
 }
 
+notify_message() {
+  local message="$1"
+  hyprctl notify -1 2500 "rgb(ebb26a)" "$message" >/dev/null 2>&1 || true
+}
+
 is_terminal_class() {
   case "$1" in
     Alacritty|kitty|com.mitchellh.ghostty|org.wezfurlong.wezterm|foot|org.gnome.Console|gnome-terminal-server|xterm|XTerm)
@@ -59,6 +64,42 @@ clipboard_fingerprint() {
   printf '%s\n%s' "$types" "$payload" | sha256sum | cut -d' ' -f1
 }
 
+sanitize_label() {
+  jq -r '
+    .item |
+    ((.text // "[non-text item]")
+      | gsub("\r"; " ")
+      | gsub("\n"; " / ")
+      | gsub("\t"; " ")
+      | if length > 120 then .[0:117] + "..." else . end) +
+    "    " + .subtext
+  '
+}
+
+select_text_item() {
+  local query_output selection_index text_b64
+  local -a labels texts preview_types
+
+  query_output="$(elephant query --json 'clipboard;;200;false')"
+  [[ -z "$query_output" ]] && return 1
+
+  mapfile -t labels < <(printf '%s\n' "$query_output" | sanitize_label)
+  mapfile -t texts < <(printf '%s\n' "$query_output" | jq -r '.item.text // "" | @base64')
+  mapfile -t preview_types < <(printf '%s\n' "$query_output" | jq -r '.item.preview_type // ""')
+
+  selection_index="$({ printf '%s\n' "${labels[@]}"; } | walker --dmenu --index -p 'Clipboard' --width 900 --minheight 300 --maxheight 520 || true)"
+  [[ -z "$selection_index" ]] && return 1
+  [[ "$selection_index" =~ ^[0-9]+$ ]] || return 1
+
+  if [[ "${preview_types[$selection_index]}" != "text" ]]; then
+    notify_message 'Clipboard: image/binary item auto-paste is not supported yet'
+    return 1
+  fi
+
+  text_b64="${texts[$selection_index]}"
+  printf '%s' "$text_b64" | base64 -d | wl-copy
+}
+
 focus_original_window() {
   local address="$1"
 
@@ -94,11 +135,12 @@ main() {
   window_class="$(jq -r '.class // empty' <<<"$active_json")"
   before="$(clipboard_fingerprint)"
 
-  launch_walker
-
   if [[ "$MODE" == "manage" ]]; then
+    launch_walker
     exit 0
   fi
+
+  select_text_item || exit 0
 
   after="$(clipboard_fingerprint)"
   [[ "$before" != "$after" ]] || exit 0
