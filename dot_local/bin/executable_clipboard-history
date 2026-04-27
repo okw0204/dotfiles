@@ -3,14 +3,13 @@
 set -euo pipefail
 
 MODE="${1:-paste}"
-LIMIT="${CLIPBOARD_HISTORY_LIMIT:-200}"
 
 start_elephant() {
   systemctl --user is-active --quiet elephant.service || systemctl --user start elephant.service
 }
 
-launch_manager() {
-  exec walker -m clipboard --width 900 --minheight 300 --maxheight 520
+launch_walker() {
+  walker -m clipboard --width 900 --minheight 300 --maxheight 520
 }
 
 is_terminal_class() {
@@ -46,26 +45,18 @@ uses_ctrl_shift_v() {
   esac
 }
 
-sanitize_label() {
-  jq -r '
-    .item |
-    (if (.actions | index("unpin")) then "[PIN] " else "" end) +
-    ((.text // "[non-text item]")
-      | gsub("\r"; " ")
-      | gsub("\n"; " / ")
-      | gsub("\t"; " ")
-      | if length > 120 then .[0:117] + "..." else . end) +
-    "    " + .subtext
-  '
-}
+clipboard_fingerprint() {
+  local types payload
 
-query_items() {
-  elephant query --json "clipboard;;${LIMIT};false"
-}
+  types="$(wl-paste --list-types 2>/dev/null | tr '\n' ',' || true)"
 
-copy_item() {
-  local identifier="$1"
-  elephant activate "clipboard;${identifier};copy;;"
+  if [[ $types == *"text/plain"* ]]; then
+    payload="$(wl-paste --no-newline 2>/dev/null || true)"
+  else
+    payload="$(wl-paste 2>/dev/null | head -c 4096 || true)"
+  fi
+
+  printf '%s\n%s' "$types" "$payload" | sha256sum | cut -d' ' -f1
 }
 
 focus_original_window() {
@@ -94,31 +85,23 @@ send_paste() {
 }
 
 main() {
-  local active_json address window_class query_output selection_index identifier
-  local -a identifiers labels
+  local active_json address window_class before after
 
   start_elephant
-
-  if [[ "$MODE" == "manage" ]]; then
-    launch_manager
-  fi
 
   active_json="$(hyprctl -j activewindow)"
   address="$(jq -r '.address // empty' <<<"$active_json")"
   window_class="$(jq -r '.class // empty' <<<"$active_json")"
+  before="$(clipboard_fingerprint)"
 
-  query_output="$(query_items)"
-  [[ -z "$query_output" ]] && exit 0
+  launch_walker
 
-  mapfile -t identifiers < <(printf '%s\n' "$query_output" | jq -r '.item.identifier')
-  mapfile -t labels < <(printf '%s\n' "$query_output" | sanitize_label)
+  if [[ "$MODE" == "manage" ]]; then
+    exit 0
+  fi
 
-  selection_index="$({ printf '%s\n' "${labels[@]}"; } | walker --dmenu --index -p 'Clipboard' --width 900 --minheight 300 --maxheight 520 || true)"
-  [[ -z "$selection_index" ]] && exit 0
-  [[ "$selection_index" =~ ^[0-9]+$ ]] || exit 0
-
-  identifier="${identifiers[$selection_index]}"
-  copy_item "$identifier"
+  after="$(clipboard_fingerprint)"
+  [[ "$before" != "$after" ]] || exit 0
 
   sleep 0.12
   focus_original_window "$address"
