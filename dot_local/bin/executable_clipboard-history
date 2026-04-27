@@ -1,0 +1,100 @@
+#!/bin/bash
+
+set -euo pipefail
+
+MODE="${1:-paste}"
+LIMIT="${CLIPBOARD_HISTORY_LIMIT:-200}"
+
+start_elephant() {
+  systemctl --user is-active --quiet elephant.service || systemctl --user start elephant.service
+}
+
+launch_manager() {
+  exec walker -m clipboard --width 900 --minheight 300 --maxheight 520
+}
+
+is_terminal_class() {
+  case "$1" in
+    Alacritty|kitty|com.mitchellh.ghostty|org.wezfurlong.wezterm|foot|org.gnome.Console|gnome-terminal-server|xterm|XTerm)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+sanitize_label() {
+  jq -r '
+    .item |
+    (if (.actions | index("unpin")) then "[PIN] " else "" end) +
+    ((.text // "[non-text item]")
+      | gsub("\r"; " ")
+      | gsub("\n"; " / ")
+      | gsub("\t"; " ")
+      | if length > 120 then .[0:117] + "..." else . end) +
+    "    " + .subtext
+  '
+}
+
+query_items() {
+  elephant query --json "clipboard;;${LIMIT};false"
+}
+
+copy_item() {
+  local identifier="$1"
+  elephant activate "clipboard;${identifier};copy;;"
+}
+
+focus_original_window() {
+  local address="$1"
+
+  [[ -z "$address" || "$address" == "null" ]] && return 0
+
+  hyprctl dispatch focuswindow "address:${address}" >/dev/null 2>&1 || true
+  sleep 0.05
+}
+
+send_paste() {
+  local window_class="$1"
+
+  if is_terminal_class "$window_class"; then
+    hyprctl dispatch sendshortcut "SHIFT,Insert," >/dev/null 2>&1 || hyprctl dispatch sendshortcut "SHIFT,INSERT," >/dev/null 2>&1 || true
+  else
+    hyprctl dispatch sendshortcut "CTRL,V," >/dev/null 2>&1 || true
+  fi
+}
+
+main() {
+  local active_json address window_class query_output selection_index identifier
+  local -a identifiers labels
+
+  start_elephant
+
+  if [[ "$MODE" == "manage" ]]; then
+    launch_manager
+  fi
+
+  active_json="$(hyprctl -j activewindow)"
+  address="$(jq -r '.address // empty' <<<"$active_json")"
+  window_class="$(jq -r '.class // empty' <<<"$active_json")"
+
+  query_output="$(query_items)"
+  [[ -z "$query_output" ]] && exit 0
+
+  mapfile -t identifiers < <(printf '%s\n' "$query_output" | jq -r '.item.identifier')
+  mapfile -t labels < <(printf '%s\n' "$query_output" | sanitize_label)
+
+  selection_index="$({ printf '%s\n' "${labels[@]}"; } | walker --dmenu --index -p 'Clipboard' --width 900 --minheight 300 --maxheight 520 || true)"
+  [[ -z "$selection_index" ]] && exit 0
+  [[ "$selection_index" =~ ^[0-9]+$ ]] || exit 0
+
+  identifier="${identifiers[$selection_index]}"
+  copy_item "$identifier"
+
+  sleep 0.05
+  focus_original_window "$address"
+  send_paste "$window_class"
+}
+
+main "$@"
