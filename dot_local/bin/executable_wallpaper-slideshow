@@ -2,7 +2,7 @@
 set -euo pipefail
 
 WALLPAPER_DIR="${WALLPAPER_DIR:-$HOME/ghq/github.com/okw0204/wallpaper}"
-INTERVAL_SECONDS="${WALLPAPER_INTERVAL_SECONDS:-600}"
+INTERVAL_SECONDS="${WALLPAPER_INTERVAL_SECONDS:-900}"
 WALLPAPER_SET="${WALLPAPER_SET:-$HOME/.local/bin/wallpaper-set}"
 
 if [[ ! -d $WALLPAPER_DIR ]]; then
