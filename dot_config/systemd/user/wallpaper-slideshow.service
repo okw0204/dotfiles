@@ -1,0 +1,12 @@
+[Unit]
+Description=Random wallpaper slideshow
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+ExecStart=%h/.local/bin/wallpaper-slideshow
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=graphical-session.target
