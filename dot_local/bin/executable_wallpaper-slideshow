@@ -3,27 +3,12 @@ set -euo pipefail
 
 WALLPAPER_DIR="${WALLPAPER_DIR:-$HOME/ghq/github.com/okw0204/wallpaper}"
 INTERVAL_SECONDS="${WALLPAPER_INTERVAL_SECONDS:-600}"
-CURRENT_BACKGROUND_LINK="${CURRENT_BACKGROUND_LINK:-$HOME/.config/omarchy/current/background}"
-SCALE_MODE="${WALLPAPER_SCALE_MODE:-fill}"
-
-swaybg_pid=""
-
-stop_swaybg() {
-  if [[ -n $swaybg_pid ]] && kill -0 "$swaybg_pid" 2>/dev/null; then
-    kill "$swaybg_pid" 2>/dev/null || true
-    wait "$swaybg_pid" 2>/dev/null || true
-  fi
-}
-
-trap 'stop_swaybg; exit 0' INT TERM EXIT
+WALLPAPER_SET="${WALLPAPER_SET:-$HOME/.local/bin/wallpaper-set}"
 
 if [[ ! -d $WALLPAPER_DIR ]]; then
   echo "Wallpaper directory not found: $WALLPAPER_DIR" >&2
   exit 1
 fi
-
-# Omarchy starts its own swaybg; take ownership once when this service starts.
-pkill -x swaybg 2>/dev/null || true
 
 while true; do
   shopt -s nullglob nocaseglob
@@ -38,12 +23,7 @@ while true; do
 
   image="${images[RANDOM % ${#images[@]}]}"
 
-  mkdir -p "$(dirname "$CURRENT_BACKGROUND_LINK")"
-  ln -nsf "$image" "$CURRENT_BACKGROUND_LINK"
-
-  stop_swaybg
-  swaybg -i "$image" -m "$SCALE_MODE" &
-  swaybg_pid=$!
+  "$WALLPAPER_SET" "$image"
 
   sleep "$INTERVAL_SECONDS" &
   wait $!
