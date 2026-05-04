@@ -16,3 +16,12 @@ end, { desc = "Rust Testables" })
 map("n", "<leader>rT", function()
   vim.cmd.RustLsp({ "testables", bang = true })
 end, { desc = "Rust Testables!" })
+map("n", "<leader>ro", function()
+  vim.lsp.buf.code_action({
+    apply = true,
+    context = {
+      only = { "source.organizeImports" },
+      diagnostics = {},
+    },
+  })
+end, { desc = "Rust Organize Imports" })
