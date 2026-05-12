@@ -1,7 +1,9 @@
 [tools]
+"aqua:charmbracelet/glow" = "latest"
 fzf = "latest"
 gh = "latest"
 ghq = "latest"
+"github:googleworkspace/cli" = "latest"
 node = "25.2.1"
 ollama = "0.18.3"
 rust = "stable"
