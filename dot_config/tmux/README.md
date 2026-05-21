@@ -35,16 +35,17 @@ Current prefix key:
 
 Enter with `prefix + o`.
 
-- `w`: choose window tree
-- `s`: choose session tree
-- `r`: rename current window
-- `R`: rename current session
-- `c`: create new window
-- `C`: create new session
-- `k`: close current window with confirmation
-- `K`: close current session with confirmation
-- `?`: show organize help menu
-- `q` / `Esc`: cancel
+The popup shows windows across sessions.
+
+- `Enter`: switch to selected window
+- `Ctrl+r`: rename selected window
+- `Ctrl+k`: close selected window with confirmation
+- `Ctrl+u`: move selected window up
+- `Ctrl+d`: move selected window down
+- `Ctrl+m`: move selected window to another session
+- `Ctrl+n`: create new window
+- `Ctrl+s`: create new session
+- `Esc`: close popup
 
 ## Useful commands
 
