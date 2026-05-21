@@ -3,7 +3,7 @@
 set -g self (realpath (status filename))
 
 function window_rows
-    tmux list-windows -a -F '#{window_id}	#{session_name}	#{window_name}	#{pane_current_path}'
+    tmux list-windows -a -F '#{window_id}	#{session_name}	#{window_index}	#{window_name}	#{pane_current_path}'
 end
 
 function current_path
@@ -76,7 +76,7 @@ function select_window
 
     window_rows | fzf \
         --delimiter '\t' \
-        --with-nth '2,3,4' \
+        --with-nth '2,3,4,5' \
         --track \
         --header "$header" \
         --prompt 'tmux organize> ' \
@@ -90,7 +90,7 @@ function select_window
         --bind "s:execute-silent($self new-session)+reload(eval \"\$reload_cmd\")"
 end
 
-set -gx reload_cmd 'tmux list-windows -a -F "#{window_id}	#{session_name}	#{window_name}	#{pane_current_path}"'
+set -gx reload_cmd 'tmux list-windows -a -F "#{window_id}	#{session_name}	#{window_index}	#{window_name}	#{pane_current_path}"'
 
 set -l selected (select_window)
 if test -z "$selected"
