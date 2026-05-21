@@ -73,7 +73,7 @@ if test (count $argv) -gt 0
 end
 
 function select_window
-    set -l header 'Enter: switch | F2: rename | F4: kill | F5/F6: move up/down | F7: move session | F8: new window | F9: new session | Esc: close'
+    set -l header 'Enter: switch | r: rename | x: kill | u/d: move up/down | m: move session | n: new window | s: new session | Esc: close'
 
     window_rows | fzf \
         --delimiter '\t' \
@@ -81,13 +81,13 @@ function select_window
         --header "$header" \
         --prompt 'tmux organize> ' \
         --bind 'enter:accept' \
-        --bind "f2:execute($self rename {1} {2})+reload(eval \"\$reload_cmd\")" \
-        --bind "f4:execute($self kill {1} {2})+reload(eval \"\$reload_cmd\")" \
-        --bind "f5:execute-silent($self move-relative {1} {2} -1)+reload(eval \"\$reload_cmd\")" \
-        --bind "f6:execute-silent($self move-relative {1} {2} 1)+reload(eval \"\$reload_cmd\")" \
-        --bind "f7:execute($self move-session {1} {2})+reload(eval \"\$reload_cmd\")" \
-        --bind "f8:execute-silent($self new-window {1})+reload(eval \"\$reload_cmd\")" \
-        --bind "f9:execute-silent($self new-session)+reload(eval \"\$reload_cmd\")"
+        --bind "r:execute($self rename {1} {2})+reload(eval \"\$reload_cmd\")" \
+        --bind "x:execute($self kill {1} {2})+reload(eval \"\$reload_cmd\")" \
+        --bind "u:execute-silent($self move-relative {1} {2} -1)+reload(eval \"\$reload_cmd\")" \
+        --bind "d:execute-silent($self move-relative {1} {2} 1)+reload(eval \"\$reload_cmd\")" \
+        --bind "m:execute($self move-session {1} {2})+reload(eval \"\$reload_cmd\")" \
+        --bind "n:execute-silent($self new-window {1})+reload(eval \"\$reload_cmd\")" \
+        --bind "s:execute-silent($self new-session)+reload(eval \"\$reload_cmd\")"
 end
 
 set -gx reload_cmd 'tmux list-windows -a -F "#{session_name}	#{window_index}	#{window_name}	#{pane_current_path}"'

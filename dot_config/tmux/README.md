@@ -38,13 +38,13 @@ Enter with `prefix + o`.
 The popup shows windows across sessions.
 
 - `Enter`: switch to selected window
-- `F2`: rename selected window
-- `F4`: close selected window with confirmation
-- `F5`: move selected window up
-- `F6`: move selected window down
-- `F7`: move selected window to another session
-- `F8`: create new window
-- `F9`: create new session
+- `r`: rename selected window
+- `x`: close selected window with confirmation
+- `u`: move selected window up
+- `d`: move selected window down
+- `m`: move selected window to another session
+- `n`: create new window
+- `s`: create new session
 - `Esc`: close popup
 
 ## Useful commands
