@@ -31,6 +31,21 @@ Current prefix key:
 - `Alt+Up`: previous session
 - `Alt+Down`: next session
 
+## Organize mode
+
+Enter with `prefix + o`.
+
+- `w`: choose window tree
+- `s`: choose session tree
+- `r`: rename current window
+- `R`: rename current session
+- `c`: create new window
+- `C`: create new session
+- `k`: close current window with confirmation
+- `K`: close current session with confirmation
+- `?`: show organize help menu
+- `q` / `Esc`: cancel
+
 ## Useful commands
 
 - `prefix + q`: reload `~/.config/tmux/tmux.conf`
