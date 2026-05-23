@@ -28,6 +28,11 @@ if status is-interactive
         try init ~/Work/tries | source
     end
     if type -q fzf
+        # fzf が背景色検出で OSC 11 応答を残すことがあるため、配色を明示する。
+        if not string match -q '*--color=*' -- $FZF_DEFAULT_OPTS; and not string match -q '*--no-color*' -- $FZF_DEFAULT_OPTS
+            set -gx FZF_DEFAULT_OPTS "--color=dark $FZF_DEFAULT_OPTS"
+        end
+
         if test -f /usr/share/fzf/completion.fish
             source /usr/share/fzf/completion.fish
         end
