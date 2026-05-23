@@ -70,11 +70,39 @@ if status is-interactive
     alias gcam="git commit -a -m"
     alias gcad="git commit -a --amend"
 
-    # ghq + fzf でリポジトリを選んで移動
-    function gq --description "Select ghq repo with fzf"
-        set -l selected (ghq list -p | fzf --height=40% --reverse --prompt "ghq> " --query "$argv")
-        if test -n "$selected"
-            cd "$selected"
+    # ghq でリポジトリを選んで移動
+    if type -q ghq; and type -q fzf
+        function gq --description "Select ghq repo with fzf"
+            set -l selected (ghq list -p | fzf --height=40% --reverse --prompt "ghq> " --query "$argv")
+            if test -n "$selected"
+                cd "$selected"
+            end
+        end
+    end
+
+    # git worktree を選んで移動
+    if type -q fzf
+        function gw --description "Select git worktree with fzf"
+            set -l selected (git worktree list 2>/dev/null | fzf --height=40% --reverse --prompt "worktree> " --query "$argv")
+            if test -n "$selected"
+                cd (string split -f1 ' ' -- "$selected")
+            end
+        end
+    end
+
+    # git branch + fzf でブランチを選んで切り替え
+    if type -q fzf
+        function gs --description "Select git branch with fzf"
+            set -l selected (git branch -a 2>/dev/null \
+                 | string trim \
+                 | string replace -r '^\* ' '' \
+                 | string replace -r '^remotes/origin/' '' \
+                 | string match -v 'HEAD' \
+                 | sort -u \
+                 | fzf --height=40% --reverse --prompt "branch> " --query "$argv")
+            if test -n "$selected"
+                git switch "$selected"
+            end
         end
     end
 
@@ -176,3 +204,8 @@ end
 
 # opencode
 fish_add_path /home/okw/.opencode/bin
+
+# >>> splashboard >>>
+# Added by `splashboard install`. Safe to remove.
+splashboard init fish | source
+# <<< splashboard <<<
