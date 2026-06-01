@@ -71,9 +71,12 @@ if status is-interactive
 
     # Git
     abbr -a g git
-    alias gcm="git commit -m"
-    alias gcam="git commit -a -m"
-    alias gcad="git commit -a --amend"
+    abbr -a gp git pull
+
+    function gf --description "Fetch origin and prune stale git refs/worktrees"
+        git fetch --prune origin
+        git worktree prune --verbose
+    end
 
     # ghq でリポジトリを選んで移動
     if type -q ghq; and type -q fzf
