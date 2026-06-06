@@ -1,5 +1,6 @@
 [tools]
 "aqua:charmbracelet/glow" = "latest"
+bun = "latest"
 fzf = "latest"
 gh = "latest"
 ghq = "latest"

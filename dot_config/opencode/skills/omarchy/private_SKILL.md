@@ -273,6 +273,21 @@ bind = SUPER, F, exec, nautilus
 
 Always tell the user: "Note: SUPER+F was previously bound to fullscreen. I've added an unbind directive to override it."
 
+#### Compact / split keyboard keybinding customization
+
+When adapting Omarchy/Hyprland to compact or split keyboards (e.g. 40–50 key boards with layers, thumb keys, trackballs), do not force the user to keep the stock full-size-keyboard-oriented bindings. Stock Omarchy is generally compatible because it is `SUPER`-centric, but number-row, arrow-key, Print/F-key, and multi-modifier combos can become layer-heavy.
+
+Recommended workflow:
+
+1. Read stock bindings in `~/.local/share/omarchy/default/hypr/bindings/*.conf` and user overrides in `~/.config/hypr/bindings.conf`.
+2. Keep high-value existing paths if they already work well, such as launcher, terminal, clipboard history, workspace next/previous, fullscreen, and floating toggle.
+3. Prefer adding personal overrides to `~/.config/hypr/bindings.conf` with explicit `unbind` lines; never edit stock Omarchy files.
+4. For keyboard-driven window management, consider home-row bindings such as `SUPER+H/J/K/L` for focus, `SUPER+SHIFT+H/J/K/L` for swap/move, and `SUPER+ALT+H/L` for workspace previous/next.
+5. Check conflicts first: stock Omarchy commonly uses keys such as `SUPER+J` (toggle split), `SUPER+L` (workspace layout), and `SUPER+K` (keybindings menu).
+6. If the user is moving away from Omarchy, frame these changes as portable Hyprland bindings that can later be managed by chezmoi/dotfiles and reused on pure Arch.
+
+See `references/split-keyboard-keybindings.md` for a concise session-derived pattern and candidate binding set.
+
 ### Display/Monitors
 
 Edit `~/.config/hypr/monitors.conf`. Format:
