@@ -28,8 +28,9 @@ description: Use when writing or editing human-readable documentation such as RE
 
 - 見出し、説明文、手順、注意書きは日本語で書く。
 - 英語の用語を残す場合は、必要に応じて日本語で補足する。
-- 既存文書が英語でも、新規追加する人間向け本文は原則として日本語に寄せる。
 - 外部公開や upstream への提出など、英語が明確に必要な場合は、その理由を簡潔に示して英語で書く。
+- 太字は強調が本当に必要な語句に限り、文全体を太字にしない。
+- 英語直訳調を避け、日本語として自然に読める表現にする。
 
 ## 判断基準
 
@@ -39,7 +40,6 @@ description: Use when writing or editing human-readable documentation such as RE
 | --- | --- |
 | README、docs、設計書、仕様書、手順書 | 日本語 |
 | AGENTS.md、SKILL.md、エージェント向け説明 | 日本語 |
-| コメント、エラーメッセージ、UI文言 | 読み手がユーザーなら日本語を優先 |
 | コード、設定キー、コマンド、ログ | 英語のままでよい |
 
 ## よくある失敗
@@ -47,5 +47,5 @@ description: Use when writing or editing human-readable documentation such as RE
 | 失敗 | 修正 |
 | --- | --- |
 | Skill の本文を英語で書く | `SKILL.md` も人が読む文書なので日本語で書く |
-| README の追記だけ英語にする | 既存の言語に関わらず、ユーザー方針を優先して日本語で追記する |
+| README の追記だけ英語にする | 日本語が適切な文書では、追記も日本語で書く |
 | コード名まで翻訳する | コード識別子、API名、コマンドは翻訳しない |
