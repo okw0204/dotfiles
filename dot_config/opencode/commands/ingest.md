@@ -5,6 +5,7 @@ description: ファイルを LLM Wiki に取り込む
 
 最初に必ず次の AgentSkill を読み込み、その指示に従うこと:
 - `managing-llm-wiki`
+- `japanese-documentation`
 - `obsidian-cli`
 - `obsidian-markdown`
 

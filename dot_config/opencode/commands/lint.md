@@ -6,6 +6,7 @@ LLM Wiki の lint / health-check を実行する。
 
 最初に必ず次の AgentSkill を読み込み、その指示に従うこと:
 - `managing-llm-wiki`
+- `japanese-documentation`
 - `obsidian-cli`
 - `obsidian-markdown`
 
