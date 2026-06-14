@@ -10,10 +10,12 @@ argument-hint: [ingest <path> | query <question> | lint <scope>]
 
 ## 管理範囲
 
-- Vault root: `/home/okw/ghq/github.com/okw0204/Obsidian`
-- LLM Wiki root: `/home/okw/ghq/github.com/okw0204/Obsidian/LLM Wiki`
+- Vault root: `${HOME}/ghq/github.com/okw0204/Obsidian`
+- LLM Wiki root: `${HOME}/ghq/github.com/okw0204/Obsidian/LLM Wiki`
 - 不変の元資料置き場: `LLM Wiki/raw/`
 - 書き込み対象の知識領域: `LLM Wiki/wiki/`, `LLM Wiki/index.md`, `LLM Wiki/log.md`
+
+ツールにパスを渡すときは、`${HOME}` を実行環境の home directory に展開した絶対パスを使う。別環境に移したときも、ユーザー名を固定しない。
 
 この Skill の境界として、次のルールを守る。
 
