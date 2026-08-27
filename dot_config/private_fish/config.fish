@@ -1,7 +1,7 @@
 if status is-interactive
-    # ローカルの対話シェル起動時は tmux に自動で入る（tmux内/SSH先では無効）
-    if not set -q TMUX; and not set -q SSH_TTY
-        tmux new-session # 新しいセッションを毎回作成して接続
+    # ローカルの対話シェル起動時は Herdr に自動で入る（Herdr内/tmux内/SSH先では無効）
+    if type -q herdr; and not set -q HERDR_ENV; and not set -q TMUX; and not set -q SSH_TTY
+        herdr
     end
 
     # fish は履歴/補完を標準で管理するため、bash の HIST* や inputrc は不要
