@@ -1,1 +1,1 @@
-/home/okw/.config/omarchy/current/theme/neovim.lua
+../../../../.local/state/omarchy/current/theme/neovim.lua

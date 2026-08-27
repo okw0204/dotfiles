@@ -1,6 +1,0 @@
-#!/bin/bash
-
-set -euo pipefail
-
-systemctl --user is-active --quiet elephant.service || systemctl --user start elephant.service
-exec walker -m clipboard --width 900 --minheight 300 --maxheight 520
