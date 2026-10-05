@@ -36,5 +36,6 @@
 **/GPUCache/**
 **/node_modules/**
 **/*lock*
+!.config/mise/mise.lock
 **/*.sqlite
 **/*.sqlite-*

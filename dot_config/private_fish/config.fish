@@ -63,7 +63,9 @@ if status is-interactive
 
     # ツール
     abbr -a n nvim
-    abbr -a h hermes
+    if type -q hermes
+        abbr -a h hermes
+    end
     abbr -a c opencode
     abbr -a d docker
     abbr -a y yazi
@@ -126,17 +128,42 @@ if status is-interactive
     end
     alias decompress="tar -xzf"
 
-    # ISO を SD カードへ書き込み
+    function __confirm_block_device_erase --argument-names device
+        if not test -b "$device"
+            echo "Error: $device is not a block device." >&2
+            return 1
+        end
+
+        set -l mounted (lsblk -nrpo MOUNTPOINT "$device" 2>/dev/null | string match -r '\S+')
+        if test (count $mounted) -gt 0
+            echo "Error: $device or one of its partitions is mounted." >&2
+            return 1
+        end
+
+        lsblk -d -o NAME,SIZE,MODEL,TRAN "$device"
+        set -l expected "ERASE $device"
+        read -l -P "Type '$expected' to continue: " confirm
+        test "$confirm" = "$expected"
+    end
+
+    # ISO をブロックデバイスへ書き込む
     function iso2sd
         if test (count $argv) -ne 2
             echo "Usage: iso2sd <input_file> <output_device>"
-            echo "Example: iso2sd ~/Downloads/ubuntu-25.04-desktop-amd64.iso /dev/sda"
-            printf "\nAvailable SD cards:\n"
-            lsblk -d -o NAME | grep -E '^sd[a-z]' | awk '{print "/dev/"$1}'
-        else
-            sudo dd bs=4M status=progress oflag=sync if="$argv[1]" of="$argv[2]"
-            sudo eject "$argv[2]"
+            echo "Example: iso2sd ~/Downloads/ubuntu.iso /dev/sda"
+            return 2
         end
+
+        set -l input (path resolve -- "$argv[1]")
+        set -l device (path resolve -- "$argv[2]")
+        if not test -f "$input"
+            echo "Error: $input is not a regular file." >&2
+            return 1
+        end
+        __confirm_block_device_erase "$device"; or return
+
+        sudo dd bs=4M status=progress oflag=sync if="$input" of="$device"; or return
+        sudo eject "$device"
     end
 
     # ドライブを exFAT で 1 パーティションに初期化
@@ -144,31 +171,40 @@ if status is-interactive
         if test (count $argv) -ne 2
             echo "Usage: format-drive <device> <name>"
             echo "Example: format-drive /dev/sda 'My Stuff'"
-            printf "\nAvailable drives:\n"
-            lsblk -d -o NAME -n | awk '{print "/dev/"$1}'
-        else
-            echo "WARNING: This will completely erase all data on $argv[1] and label it '$argv[2]'."
-            read -l -P "Are you sure you want to continue? (y/N): " confirm
-
-            if string match -qr '^[Yy]$' -- $confirm
-                sudo wipefs -a "$argv[1]"
-                sudo dd if=/dev/zero of="$argv[1]" bs=1M count=100 status=progress
-                sudo parted -s "$argv[1]" mklabel gpt
-                sudo parted -s "$argv[1]" mkpart primary 1MiB 100%
-
-                if string match -q '*nvme*' -- $argv[1]
-                    set -l partition "$argv[1]p1"
-                else
-                    set -l partition "$argv[1]1"
-                end
-
-                sudo partprobe "$argv[1]"; or true
-                sudo udevadm settle; or true
-
-                sudo mkfs.exfat -n "$argv[2]" "$partition"
-                echo "Drive $argv[1] formatted as exFAT and labeled '$argv[2]'."
-            end
+            return 2
         end
+
+        set -l device (path resolve -- "$argv[1]")
+        set -l label "$argv[2]"
+        if test (string length -- "$label") -gt 15
+            echo "Error: exFAT labels are limited to 15 characters." >&2
+            return 1
+        end
+        __confirm_block_device_erase "$device"; or return
+
+        sudo wipefs -a "$device"; or return
+        sudo parted -s "$device" mklabel gpt; or return
+        sudo parted -s "$device" mkpart primary 1MiB 100%; or return
+
+        if string match -qr '/(nvme\d+n\d+|mmcblk\d+|loop\d+)$' -- "$device"
+            set -l partition "$device"p1
+        else
+            set -l partition "$device"1
+        end
+
+        sudo partprobe "$device"; or return
+        sudo udevadm settle; or return
+        for attempt in (seq 1 20)
+            test -b "$partition"; and break
+            sleep 0.1
+        end
+        if not test -b "$partition"
+            echo "Error: partition $partition did not appear." >&2
+            return 1
+        end
+
+        sudo mkfs.exfat -n "$label" "$partition"; or return
+        echo "Drive $device formatted as exFAT and labeled '$label'."
     end
 
     # 共有向け 1080p へトランスコード
@@ -215,5 +251,7 @@ fish_add_path /home/okw/.opencode/bin
 
 # >>> splashboard >>>
 # Added by `splashboard install`. Safe to remove.
-splashboard init fish | source
+if type -q splashboard
+    splashboard init fish | source
+end
 # <<< splashboard <<<
