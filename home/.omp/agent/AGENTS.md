@@ -8,9 +8,7 @@
 
 # 設定の管理先
 
-- `okw0204/dotfiles-omarchy` は Arch Linux／Omarchy 専用。chezmoi はこの用途で継続し、Windows／WSL2 の設定を取り込んだり、この環境へ適用したりしない。
-- `okw0204/dotfiles` は OS に依存しない設定の保存先。必要なファイルだけ Git と明示的なコピーで管理する。
-- 設定の保存・同期・復元を依頼されたら、対象リポジトリの `AGENTS.md` と `README.md` を先に読み、管理対象と方向を確認する。標準のクローン先は `~/ghq/github.com/okw0204/<リポジトリ名>`。配置場所が違う場合も `origin` で取り違えを防ぐ。
+- 設定の保存・同期・復元では、OS 共通設定は `okw0204/dotfiles`、Arch Linux／Omarchy 専用設定は `okw0204/dotfiles-omarchy` を参照する。操作前に対象リポジトリの `AGENTS.md` と `README.md` を読む。
 
 # コア原則
 
