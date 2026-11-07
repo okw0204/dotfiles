@@ -1,0 +1,93 @@
+onboarding = false
+
+[theme]
+name = "kanagawa"
+
+auto_switch = false
+[theme.custom]
+panel_bg = "black"
+
+[terminal]
+new_cwd = "follow"
+
+# Omarchyのtmux操作体系に合わせる。
+[keys]
+prefix = "ctrl+space"
+
+resize_mode = "prefix+p"
+
+reload_config = "prefix+q"
+help = "prefix+?"
+detach = "prefix+shift+q"
+copy_mode = "prefix+["
+
+workspace_picker = "prefix+w"
+
+split_horizontal = ["prefix+h", "alt+enter"]
+split_vertical = ["prefix+v", "alt+shift+enter"]
+close_pane = ["prefix+x", "alt+esc"]
+zoom = "prefix+z"
+last_pane = "prefix+semicolon"
+
+focus_pane_left = "ctrl+alt+left"
+focus_pane_down = "ctrl+alt+down"
+focus_pane_up = "ctrl+alt+up"
+focus_pane_right = "ctrl+alt+right"
+
+resize_pane_left = "ctrl+alt+shift+left"
+resize_pane_down = "ctrl+alt+shift+down"
+resize_pane_up = "ctrl+alt+shift+up"
+resize_pane_right = "ctrl+alt+shift+right"
+rename_pane = "prefix+shift+o"
+
+new_tab = "prefix+c"
+rename_tab = "prefix+r"
+close_tab = "prefix+k"
+switch_tab = "prefix+1..9"
+previous_tab = ["alt+left", "alt+h"]
+next_tab = ["alt+right", "alt+l"]
+move_tab_previous = "alt+shift+left"
+move_tab_next = "alt+shift+right"
+
+new_workspace = "prefix+shift+c"
+rename_workspace = "prefix+shift+r"
+close_workspace = "prefix+shift+k"
+swap_pane_up = "prefix+shift+up"
+previous_workspace = "alt+up"
+next_workspace = "alt+down"
+previous_agent = "alt+k"
+next_agent = "alt+j"
+
+
+[[keys.command]]
+key = "prefix+slash"
+type = "pane"
+command = "fish -l"
+
+[[keys.command]]
+key = "prefix+g"
+type = "plugin_action"
+command = "persiyanov.reviewr.toggle"
+
+[keys.indexed]
+tabs = "alt"
+[ui]
+accent = "blue"
+pane_gaps = false
+pane_outer_borders = false
+pane_scrollbars = true
+confirm_close = false
+prompt_new_tab_name = false
+mouse_capture = true
+prompt_new_workspace_name = true
+show_agent_labels_on_pane_borders = true
+agent_panel_sort = "priority"
+tab_bar_right = [{ type = "zoom" }, { type = "hostname" }]
+window_title = "{hostname}: {workspace}"
+
+status_indicators = "symbols"
+[ui.toast]
+delivery = "herdr"
+
+[ui.sound]
+enabled = true

@@ -12,9 +12,21 @@ Arch Linux／Omarchy 専用の設定は [dotfiles-omarchy](https://github.com/ok
 | --- | --- | --- |
 | `home/.omp/agent/AGENTS.md` | `~/.omp/agent/AGENTS.md` | 共通ルールと設定管理先の案内 |
 | `home/.omp/agent/PERSONALITY.md` | `~/.omp/agent/PERSONALITY.md` | 応答の口調 |
+| `home/.omp/agent/RULES.md` | `~/.omp/agent/RULES.md` | 質問・相談と実施のルール |
+| `home/.omp/agent/config.yml` | `~/.omp/agent/config.yml` | モデル・表示・ツール承認の設定 |
+| `home/.omp/agent/keybindings.yml` | `~/.omp/agent/keybindings.yml` | 外部エディタのキー操作 |
+| `home/.omp/agent/commands/ingest.md` | `~/.omp/agent/commands/ingest.md` | Wiki への取り込みコマンド |
+| `home/.omp/agent/commands/lint.md` | `~/.omp/agent/commands/lint.md` | Wiki の点検コマンド |
+| `home/.config/herdr/config.toml` | `~/.config/herdr/config.toml` | Herdr のキー操作と表示設定 |
 | `home/.agents/skills/herdr/SKILL.md` | `~/.agents/skills/herdr/SKILL.md` | 導入済み Herdr スキルの保存 |
 
 Herdr スキルの出典は [herdrdev/herdr の skills/herdr/SKILL.md](https://github.com/herdrdev/herdr/blob/main/skills/herdr/SKILL.md)。原文を保存し、このリポジトリ独自のライセンスとして扱わない。スキル管理ツール全体の lock ファイルや、他のスキルは対象に含めない。
+
+### 復元時の前提
+
+- omp の `config.yml` は `approvalMode: yolo` とコマンド拒否パターンを含む。復元先で使うモデル・プロバイダーと承認方針を確認してから適用する。認証情報は別途用意する。
+- Wiki コマンドは `managing-llm-wiki`、`japanese-documentation`、`obsidian-cli`、`obsidian-markdown` の各スキルを参照する。このリポジトリには含めていないため、復元先で別途導入する。
+- Herdr の設定は `fish` と reviewr プラグインの `persiyanov.reviewr.toggle` を参照する。プラグインやエージェント連携は Herdr 側で導入し、生成されたフック・プラグイン本体・セッション状態はここには保存しない。
 
 ## この環境から取り込む
 

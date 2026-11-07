@@ -1,0 +1,192 @@
+modelRoles:
+  default: openrouter/deepseek/deepseek-v4.1-flash:auto
+  smol: openrouter/z-ai/glm-5.3-flash
+  tiny: "@smol"
+  slow: openai-codex/gpt-6-astra:high
+  plan: openai-codex/gpt-6-astra:high
+  task: "@default"
+  plus: openai-codex/gpt-5.6-sol:auto
+  web: openai-codex/gpt-5.6-luna
+modelTags:
+  plus:
+    name: PLUS
+cycleOrder:
+  - default
+  - slow
+  - plus
+symbolPreset: nerd
+composer:
+  shape: box
+theme:
+  dark: titanium
+  light: titanium
+setupVersion: 3
+tui:
+  codexResetFireworks: true
+  textSizing: false
+  renderMermaid: true
+  titleState: true
+  mouse: false
+statusLine:
+  preset: default
+  separator: powerline-thin
+  sessionAccent: true
+  transparent: false
+  compactThinkingLevel: true
+  showHookStatus: true
+terminal:
+  showProgress: false
+images:
+  autoResize: true
+  blockImages: false
+colorBlindMode: false
+dev:
+  autoqaConsent: denied
+codexResets:
+  autoRedeem: "no"
+lsp:
+  formatOnWrite: true
+personality: friendly
+secrets:
+  enabled: true
+display:
+  showTokenUsage: true
+  showTurnTime: true
+  pinnedAgents: full
+task:
+  showResolvedModelBadge: true
+  maxConcurrency: 4
+  agentModelOverrides:
+    scout: "@smol"
+    sonic: "@smol"
+    task: "@default"
+    reviewer: "@slow"
+    security-reviewer: "@slow"
+error:
+  notify: "on"
+enabledProviders:
+  - pi
+defaultThinkingLevel: auto
+retry:
+  enabled: true
+  modelFallback: false
+  fallbackChains:
+    web:
+      - web/parallel
+      - web/perplexity
+      - google-gemini-cli/gemini-2.5-flash
+      - google-antigravity/gemini-2.5-flash
+      - google/gemini-2.5-flash
+      - anthropic/claude-haiku-4-5
+      - xai/grok-4.5
+      - web/zai
+      - web/exa
+      - web/tinyfish
+      - web/jina
+      - web/kagi
+      - web/tavily
+      - web/firecrawl
+      - web/brave
+      - web/kimi
+      - web/synthetic
+      - web/ollama
+      - web/searxng
+      - web/startpage
+      - web/duckduckgo
+      - web/ecosia
+      - web/google
+      - web/mojeek
+      - web/public
+      - web/hosted
+advisor:
+  enabled: false
+tools:
+  approvalMode: yolo
+bash:
+  patterns:
+    - match: sudo *
+      approval: deny
+    - match: su *
+      approval: deny
+    - match: doas *
+      approval: deny
+    - match: pkexec *
+      approval: deny
+    - match: rm -rf *
+      approval: deny
+    - match: rm -fr *
+      approval: deny
+    - match: rm -*r*f* *
+      approval: deny
+    - match: rm -*f*r* *
+      approval: deny
+    - match: rm --recursive *
+      approval: deny
+    - match: git push --force*
+      approval: deny
+    - match: git push -f*
+      approval: deny
+    - match: git push * --force*
+      approval: deny
+    - match: git push * -f*
+      approval: deny
+    - match: git push --mirror*
+      approval: deny
+    - match: git push --delete*
+      approval: deny
+    - match: git push * --delete*
+      approval: deny
+    - match: git reset --hard*
+      approval: deny
+    - match: git clean -*f*
+      approval: deny
+    - match: git branch -D *
+      approval: deny
+    - match: git stash clear*
+      approval: deny
+    - match: git stash drop*
+      approval: deny
+    - match: mkfs*
+      approval: deny
+    - match: dd *of=/dev/*
+      approval: deny
+    - match: chmod -R * /*
+      approval: deny
+    - match: chown -R * /*
+      approval: deny
+    - match: shred /dev/*
+      approval: deny
+    - match: cryptsetup*
+      approval: deny
+    - match: kill -9 1*
+      approval: deny
+    - match: curl *|*sh*
+      approval: deny
+    - match: curl *|*bash*
+      approval: deny
+    - match: wget *|*sh*
+      approval: deny
+    - match: wget *|*bash*
+      approval: deny
+    - match: fetch *|*sh*
+      approval: deny
+    - match: fetch *|*bash*
+      approval: deny
+    - match: eval *curl*
+      approval: deny
+    - match: eval *wget*
+      approval: deny
+    - match: nc * -e *
+      approval: deny
+    - match: nc * -c *
+      approval: deny
+    - match: shutdown*
+      approval: deny
+    - match: poweroff*
+      approval: deny
+    - match: reboot*
+      approval: deny
+    - match: halt*
+      approval: deny
+update:
+  auto: false
