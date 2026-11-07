@@ -6,10 +6,7 @@
 - ナレッジ管理: Obsidian（Vault のパスは環境変数 `OBSIDIAN_VAULT_PATH` で管理）
 - ターミナルマルチプレクサ: herdr
 - リポジトリ管理: ghq
-
-# 設定の管理先
-
-- 設定の保存・同期・復元では、OS 共通設定は `okw0204/dotfiles`、Arch Linux／Omarchy 専用設定は `okw0204/dotfiles-omarchy` を参照する。操作前に対象リポジトリの `AGENTS.md` と `README.md` を読む。
+- 設定の保存・同期・復元: `okw0204/dotfiles` を参照し、操作前にリポジトリの `AGENTS.md` と `README.md` を読む。
 
 # コア原則
 
