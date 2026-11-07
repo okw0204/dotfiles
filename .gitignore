@@ -1,0 +1,13 @@
+# ローカル設定と実行時データは共通設定に取り込まない。
+/home/.config/mise/*.local.toml
+/home/.config/mise/*.local.lock
+/home/.config/git/config.local
+/home/.config/fish/local.fish
+/home/.config/fish/linux-disk.fish
+/home/.config/fish/fish_variables*
+/home/.config/nvim/lua/config/*.local.lua
+/home/.config/nvim/lua/config/remote_clipboard.lua
+/home/.config/nvim/lua/plugins/*.local.lua
+/home/.config/nvim/lua/plugins/omarchy-theme-hotreload.lua
+**/__pycache__/
+**/*.pyc
