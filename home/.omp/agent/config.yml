@@ -3,10 +3,10 @@ modelRoles:
   smol: openrouter/z-ai/glm-5.3-flash
   tiny: "@smol"
   slow: openai-codex/gpt-6-astra:high
-  plan: openai-codex/gpt-6-astra:high
+  plan: "@slow"
   task: "@default"
-  plus: openai-codex/gpt-5.6-sol:auto
-  web: openai-codex/gpt-5.6-luna
+  web: web/parallel
+  plus: openai-codex/gpt-6.1-sol:auto
 modelTags:
   plus:
     name: PLUS
@@ -43,7 +43,8 @@ colorBlindMode: false
 dev:
   autoqaConsent: denied
 codexResets:
-  autoRedeem: "no"
+  autoRedeem5h: "no"
+  autoRedeemWeekly: "no"
 lsp:
   formatOnWrite: true
 personality: friendly
@@ -72,7 +73,6 @@ retry:
   modelFallback: false
   fallbackChains:
     web:
-      - web/parallel
       - web/perplexity
       - google-gemini-cli/gemini-2.5-flash
       - google-antigravity/gemini-2.5-flash
